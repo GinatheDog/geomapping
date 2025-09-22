@@ -1,7 +1,6 @@
-import { Component, ElementRef, ViewChild, Input } from '@angular/core';
+// Angular
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
-
-
 
 @Component({
   selector: 'app-tab1',
@@ -40,11 +39,167 @@ export class Tab1Page {
     });
   }
 
-    async setMarkerOnMap(data: any) { 
+  // Add a marker to the map
+  async setMarkerOnMap(data: any) { 
     const marker: Marker =  { coordinate: data.coordinate };
     await this.newMap.addMarker(marker);
   }
 
-  
+  // Move the map programmatically
+  // setCamera(config: CameraConfig) => Promise<void>
+  async goToNewMapLocation() {
+    await this.newMap.setCamera({
+      coordinate: {
+        lat: 33.6,
+        lng: -117.9
+      }
+    });
+  }
 
+  // Enable marker clustering
+  async addMarkerCulster() {
+    await this.newMap.enableClustering();
+  }
+
+  // Handle marker click
+  async clickOnMarker(event: any) {
+    await this.newMap.setOnMarkerClickListener((event) => {});
+  }
+
+  // Clean up map reference
+  async cleanMap() {
+    await this.newMap.destroy();
+  }
+
+  getLocationFromAddress () {
+
+  // Lat log from // Address form Lat Long
+
+  //  https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
+
+  // Address form Lat Long
+  //  https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
+
+  }
+
+  
+  
 }
+
+
+// getMapType() => Promise<MapType>
+// setMapType(mapType: MapType) => Promise<void>
+
+/* 
+
+Javascript
+
+<capacitor-google-map id="map"></capacitor-google-map>
+<button onclick="createMap()">Create Map</button>
+
+<style>
+  capacitor-google-map {
+    display: inline-block;
+    width: 275px;
+    height: 400px;
+  }
+</style>
+
+<script>
+  import { GoogleMap } from '@capacitor/google-maps';
+
+  const createMap = async () => {
+    const mapRef = document.getElementById('map');
+
+    const newMap = await GoogleMap.create({
+      id: 'my-map', // Unique identifier for this map instance
+      element: mapRef, // reference to the capacitor-google-map element
+      apiKey: 'YOUR_API_KEY_HERE', // Your Google Maps API Key
+      config: {
+        center: {
+          // The initial position to be rendered by the map
+          lat: 33.6,
+          lng: -117.9,
+        },
+        zoom: 8, // The initial zoom level to be rendered by the map
+      },
+    });
+  };
+</script>
+
+React
+
+import { GoogleMap } from '@capacitor/google-maps';
+import { useRef } from 'react';
+
+const MyMap: React.FC = () => {
+  const mapRef = useRef<HTMLElement>();
+  let newMap: GoogleMap;
+
+  async function createMap() {
+    if (!mapRef.current) return;
+
+    newMap = await GoogleMap.create({
+      id: 'my-cool-map',
+      element: mapRef.current,
+      apiKey: process.env.REACT_APP_YOUR_API_KEY_HERE,
+      config: {
+        center: {
+          lat: 33.6,
+          lng: -117.9
+        },
+        zoom: 8
+      }
+    })
+  }
+
+  return (
+    <div className="component-wrapper">
+      <capacitor-google-map ref={mapRef} style={{
+        display: 'inline-block',
+        width: 275,
+        height: 400
+      }}></capacitor-google-map>
+
+      <button onClick={createMap}>Create Map</button>
+    </div>
+  )
+}
+
+export default MyMap;
+
+Vue
+
+<script lang="ts" setup>
+import { ref, shallowRef, useTemplateRef } from 'vue'
+import { GoogleMap } from '@capacitor/google-maps'
+
+const mapRef = useTemplateRef<HTMLElement>('mapRef')
+const newMap = shallowRef<GoogleMap>()
+
+async function createMap() {
+  if (!mapRef.value) return
+
+  newMap.value = await GoogleMap.create({
+    id: 'my-cool-map',
+    element: mapRef.value,
+    apiKey: import.meta.env.VITE_YOUR_API_KEY_HERE,
+    config: {
+      center: {
+        lat: 33.6,
+        lng: -117.9,
+      },
+      zoom: 8,
+    },
+  })
+}
+</script>
+
+<template>
+  <capacitor-google-map
+    ref="mapRef"
+    style="display: inline-block; width: 275px; height: 400px"
+  ></capacitor-google-map>
+  <button @click="createMap()">Create Map</button>
+</template>
+*/
