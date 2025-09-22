@@ -1,6 +1,7 @@
 // Angular
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab1',
@@ -15,7 +16,7 @@ export class Tab1Page {
   mapArea: any;
   
 
-  constructor() {}
+  constructor( private httpClient: HttpClient ) {}
 
   // used to select map area, set location, and zoom level
   loadMapArea(){
@@ -71,19 +72,16 @@ export class Tab1Page {
     await this.newMap.destroy();
   }
 
-  getLocationFromAddress () {
-
-  // Lat log from // Address form Lat Long
-
-  //  https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
-
-  // Address form Lat Long
-  //  https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
-
+  getLocationFromAddress() {
+    const mapkey = "AIzaSyAJrxacXXXXXXXXXXXX" // Your map key here
+    let address = "4838 Richard Rd SW Calgary, AB"
+    let apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="+address+",&key="+mapkey
+    this.httpClient.get( apiUrl ).subscribe({
+      next: (result: any ) => { console.log("result", result) },
+      error: (error) => { console.log("error",error) },
+    });
+  // Alternative Address form Lat Long  https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
   }
-
-  
-  
 }
 
 
