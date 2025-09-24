@@ -1,17 +1,31 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Geofence Demo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <h2>Current Location</h2>
+  <pre>{{ currentLocation | json }}</pre>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+   <h2>Add Geofence by Place</h2>
+  <ion-item>
+    <ion-input placeholder="Search a place..." [(ngModel)]="searchQuery" (ionInput)="search()"></ion-input>
+  </ion-item>
+
+    <ion-list *ngIf="searchResults.length > 0">
+    <ion-item *ngFor="let result of searchResults" (click)="selectPlace(result)">
+      <ion-label>{{ result.description }}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <h2>Geofence Events</h2>
+  <ion-list>
+    <ion-item *ngFor="let event of geofenceEvents">
+      <ion-label>
+        <strong>{{ event.id }}</strong>
+        <p>{{ event.type }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
