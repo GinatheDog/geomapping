@@ -123,7 +123,7 @@ export class Tab1Page {
   // Alternative Address form Lat Long  https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
   }
 
-    determineGeoFenceDistance() {
+  determineGeoFenceDistance() {
     /*
       Haversine:  a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
       formula:
